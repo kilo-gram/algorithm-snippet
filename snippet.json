@@ -2,7 +2,6 @@
 	// writer : kilogram
 	// creating time : 2025-08-06
 	// last update : 2025-08-06
-	// i've referred to https://blog.shahjalalshohag.com/topic-list/
 	"PS": {
 		"prefix": "ps",
 		"body": [
@@ -133,5 +132,54 @@
 		"description": "Segment tree"
 	},
 	
-	
+	"Digit DP": {
+		"prefix": "digit_dp",
+		"body": [
+			"vector<int> num;",
+			"int a, b, d, k;",
+			"int DP[12][12][2];",
+			"",
+			"int find(int pos, int cnt, int f){",
+			"\tif(cnt > k) return 0;",
+			"",
+			"\tif(pos == num.size()){",
+			"\t\tif(cnt == k) return 1;",
+			"\t\treturn 0;",
+			"\t}",
+			"",
+			"\tif(DP[pos][cnt][f] != -1) return DP[pos][cnt][f];",
+			"\tint res = 0;",
+			"",
+			"\tint LMT;",
+			"",
+			"\t// f ? (greater than b) : (already smaller than b)",
+			"\tif(f == 0) LMT = num[pos];",
+			"\telse LMT = 9;",
+			"",
+			"\tfor(int dgt = 0; dgt <= LMT; dgt++){",
+			"\t\tint nf = f;",
+			"\t\tint ncnt = cnt;",
+			"\t\tif(f == 0 && dgt < LMT) nf = 1; /// The number is getting smaller at this position",
+			"\t\tif(dgt == d) ncnt++;",
+			"\t\tif(ncnt <= k) res += find(pos+1, ncnt, nf);",
+			"\t}",
+			"",
+			"\treturn DP[pos][cnt][f] = res;",
+			"}",
+			"",
+			"int digitcount(int b){",
+			"\tnum.clear();",
+			"\twhile(b > 0){",
+			"\t\tnum.push_back(b%10);",
+			"\t\tb/=10;",
+			"\t}",
+			"\treverse(num.begin(), num.end());",
+			"",
+			"\tmemset(DP, -1, sizeof(DP));",
+			"\tint res = find(0, 0, 0);",
+			"\treturn res;",
+			"}",
+		],
+		"description": "Digit DP"
+	},
 }
