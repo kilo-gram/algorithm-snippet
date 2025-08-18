@@ -208,7 +208,7 @@
 		"body": [
 			"const int N = 3e5 + 5;",
 			"",
-			"int bridge;",
+			"int bridge = 0;",
 			"vector<int> adj[N];",
 			"int lv[N];",
 			"int dp[N];",
