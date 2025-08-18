@@ -203,4 +203,37 @@
 		"description": "topological sorting"
 	},
 
+	"DFS_tree": {
+		"prefix": "dfs_tree",
+		"body": [
+			"const int N = 3e5 + 5;",
+			"",
+			"int bridge;",
+			"vector<int> adj[N];",
+			"int lv[N];",
+			"int dp[N];",
+			"",
+			"void dfs (int v) {",
+			"\tdp[v] = 0;",
+			"\tfor (int u : adj[v]) {",
+			"\t\tif (lv[u] == 0) {",
+			"\t\t\tlv[u] = lv[v] + 1;",
+			"\t\t\tdfs(u);",
+			"\t\t\tdp[v] += dp[u];",
+			"\t\t} else if (lv[u] < lv[v]) {",
+			"\t\t\tdp[v]++;",
+			"\t\t} else if (lv[u] > lv[v]) {",
+			"\t\t\tdp[v]--;",
+			"\t\t}",
+			"\t}",
+			"",
+			"\tdp[v]--;",
+			""
+			"\tif (lv[v] > 1 && dp[v] == 0) {",
+			"\t\tbridge++;",
+			"\t}",
+			"}",
+		],
+		"description": "classical dfs tree implementation"
+	},
 }
