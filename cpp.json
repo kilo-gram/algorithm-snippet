@@ -203,7 +203,7 @@
 			"void find(int n) {",
 			"\tfor (int i = 1; i <= n; i++) {",
 			"\t\tif (!vi[i]) {",
-			"\t\tdfs(i);",
+			"\t\t\tdfs(i);",
 			"\t\t}",
 			"\t}",
 			"\treverse(ord.begin(), ord.end());",
