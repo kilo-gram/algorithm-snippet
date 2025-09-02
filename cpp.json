@@ -19,7 +19,6 @@
 		],
 		"description": "Log output to console"
 	},
-
 	"DSU": {
 		"prefix": "dsu",
 		"body": [
@@ -54,7 +53,6 @@
 		],
 		"description": "Disjoint Set union"
 	},
-
 	"Fenwick tree (BIT)": {
 		"prefix": "fenwick",
 		"body": [
@@ -85,7 +83,6 @@
 		],
 		"description": "Fenwick tree = Binary indexed tree"
 	},
-
 	"Segment tree": {
 		"prefix": "seg",
 		"body": [
@@ -131,7 +128,6 @@
 		],
 		"description": "Segment tree"
 	},
-	
 	"Digit DP": {
 		"prefix": "digit_dp",
 		"body": [
@@ -182,7 +178,6 @@
 		],
 		"description": "Digit DP"
 	},
-
 	"topological sorting": {
 		"prefix": "topological_sorting",
 		"body": [
@@ -229,7 +224,6 @@
 		],
 		"description": "topological sorting"
 	},
-
 	"DFS_tree": {
 		"prefix": "dfs_tree",
 		"body": [
@@ -263,7 +257,6 @@
 		],
 		"description": "classical dfs tree implementation"
 	},
-
 	"cycle detection": {
 		"prefix": "cycle detection",
 		"body": [
@@ -311,7 +304,6 @@
 		],
 		"description": "cycle detection"
 	},
-
 	"Binary Lifting and lowest common ancester": {
 		"prefix": "lca",
 		"body": [
@@ -361,5 +353,61 @@
 		],
 		"description": "Binary Lifting and lowest common ancester"
 	},
-
+	"SCC": {
+		"prefix": "scc",
+		"body": [
+			"const int N = 3e5 + 9;",
+			"",
+			"// given a directed graph return the minimum number of edges to be added so that the whole graph become an SCC",
+			"// you need to restore original graph in g and reverse graph in r.",
+			"bool vis[N];",
+			"vector<int> g[N], r[N], G[N], vec; //G is the condensed graph",
+			"void dfs1(int u) {",
+			"\tvis[u] = 1;",
+			"\tfor(auto v : g[u]) if (!vis[v]) dfs1(v);",
+			"\tvec.push_back(u);",
+			"}",
+			"",
+			"vector<int> comp;",
+			"void dfs2(int u) {",
+			"\tcomp.push_back(u);",
+			"\tvis[u] = 1;",
+			"\tfor(auto v : r[u]) if (!vis[v]) dfs2(v);",
+			"}",
+			"",
+			"int idx[N], in[N], out[N];",
+			"",
+			"void find(int n) {",
+			"\tfor(int i = 1; i <= n; i++) if(!vis[i]) dfs1(i);",
+			"\treverse(vec.begin(), vec.end());",
+			"\tmemset(vis, 0, sizeof(vis));",
+			"\tint scc = 0;",
+			"\tfor(auto u : vec) {",
+			"\t\tif(!vis[u]) {",
+			"\t\t\tcomp.clear();",
+			"\t\t\tdfs2(u);",
+			"\t\t\tscc++;",
+			"\t\t\tfor(auto x : comp) idx[x] = scc;",
+			"\t\t}",
+			"\t}",
+			"\tfor(int u = 1; u <= n; u++) {",
+			"\t\tfor(auto v : g[u]) {",
+			"\t\t\tif(idx[u] != idx[v]) {",
+			"\t\t\t\tin[idx[v]]++, out[idx[u]]++;",
+			"\t\t\t\tG[idx[u]].push_back(idx[v]);",
+			"\t\t\t}",
+			"\t\t}",
+			"\t}",
+			"\tint needed_in = 0, needed_out = 0;",
+			"\tfor(int i = 1; i <= scc; i++) {",
+			"\t\tif(!in[i]) needed_in++;",
+			"\t\tif(!out[i]) needed_out++;",
+			"\t}",
+			"\tint ans = max(needed_in, needed_out);",
+			"\tif(scc == 1) ans = 0;",
+			"\tcout << ans;",
+			"}",
+		],
+		"description": "SCC"
+	},
 }
