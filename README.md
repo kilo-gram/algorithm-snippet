@@ -1,1 +1,1 @@
-This snnipet in vscode is written by me. And, i've referred to this template https://github.com/ShahjalalShohag/code-library.
+This snnipet in vscode is written by me. And, whenever i write or modify this, i refer to this template https://github.com/ShahjalalShohag/code-library.
