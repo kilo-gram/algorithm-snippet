@@ -487,4 +487,31 @@
 		],
 		"description": "Articulation Bridges and Bridge Tree"
 	},
+	"Articulation Points": {
+		"prefix": "articulation points",
+		"body": [
+			"const int N = 3e5 + 9;",
+			"",
+			"// art = check an Articulation point.",
+			"// low = maybe restore parent? and update parent of the current node to min(low[u], low[v])",
+			"// dis = check whether a current vertex is visited or not.",
+			"int T, low[N], dis[N], art[N];",
+			"vector<int> g[N];",
+			"void dfs(int u, int pre = 0) {",
+			"\tlow[u] = dis[u] = ++T;",
+			"\tint child = 0;",
+			"\tfor(auto v : g[u]) {",
+			"\t\tif(!dis[v]) {",
+			"\t\t\tdfs(v, u);",
+			"\t\t\tlow[u] = min(low[u], low[v]);",
+			"\t\t\tif(low[v] >= dis[u] && pre != 0) art[u] = 1;",
+			"\t\t\t++child;",
+			"\t\t}",
+			"\t\telse if(v != pre) low[u] = min(low[u], dis[v]);",
+			"\t}",
+			"\tif(pre == 0 && child > 1) art[u] = 1;",
+			"}",
+		],
+		"description": "Articulation Points"
+	},
 }
