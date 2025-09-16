@@ -514,7 +514,6 @@
 		],
 		"description": "Articulation Points"
 	},
-
 	"block cut tree": {
 		"prefix": "bcc",
 		"body": [
