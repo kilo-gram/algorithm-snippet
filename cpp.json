@@ -514,4 +514,40 @@
 		],
 		"description": "Articulation Points"
 	},
+
+	"block cut tree": {
+		"prefix": "bcc",
+		"body": [
+			"const int N = 4e5 + 9;",
+			"",
+			"// art = check an Articulation point.",
+			"// low = maybe restore parent? and update parent of the current node to min(low[u], low[v])",
+			"// dis = check whether a current vertex is visited or not.",
+			"// bcc is block cut tree",
+			"int T, low[N], dis[N], art[N], sz;",
+			"vector<int> g[N], bcc[N], st;",
+			"void dfs(int u, int pre = 0) {",
+			"\tlow[u] = dis[u] = ++T;",
+			"\tst.push_back(u);",
+			"\tfor(auto v : g[u]) {",
+			"\t\tif(!dis[v]) {",
+			"\t\t\tdfs(v, u);",
+			"\t\t\tlow[u] = min(low[u], low[v]);",
+			"\t\t\tif(low[v] >= dis[u]) {",
+			"\t\t\t\tsz ++;",
+			"\t\t\t\tint x;",
+			"\t\t\t\tdo {",
+			"\t\t\t\t\tx = st.back();",
+			"\t\t\t\t\tst.pop_back();",
+			"\t\t\t\t\tbcc[x].push_back(sz);",
+			"\t\t\t\t} while(x ^ v);",
+			"\t\t\t\tbcc[u].push_back(sz);",
+			"\t\t\t}",
+			"\t\t} else if(v != pre) low[u] = min(low[u], dis[v]);",
+			"\t}",
+			"}",
+		],
+		"description": "block cut tree"
+	},
+
 }
