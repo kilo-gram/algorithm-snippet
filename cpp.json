@@ -260,7 +260,7 @@
 	"cycle detection": {
 		"prefix": "cycle detection",
 		"body": [
-			"// when you add edge in g, you need to use this implementation g[vertex1].push_back({vertex2, index})",
+			"// It is possible both undigraph and digraph.",
 			"const int N = 5e5 + 9;",
 			"",
 			"vector<pair<int, int>> g[N];",
@@ -290,9 +290,15 @@
 			"\tvis[u] = 2;",
 			"\treturn 0;",
 			"}",
-
-			"void findcycle(int n) {",
-			"\tfor (int u = 0; u < n; u++) {",
+			"void findcycle(int n, int m) {",
+			"\tfor (int i = 1; i < m + 1; i++) {",
+			"\t\tint u, v;",
+			"\t\tcin >> u >> v;",
+			"\t\tu++;",
+			"\t\tv++;",
+			"\t\tg[u].push_back({v, i});",
+			"\t}",
+			"\tfor (int u = 1; u < n + 1; u++) {",
 			"\t\tif (vis[u] == 0 && dfs(u)) {",
 			"\t\t\t// this graph is acyclic",
 			"\t\t\tfor (auto x : cycle) {",
