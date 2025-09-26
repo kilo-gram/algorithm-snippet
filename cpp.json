@@ -784,7 +784,7 @@
 			"}",
 			"",
 			"void solve(int n, int m) {",
-			"\tfor (int i = 1; i <= n; i++) {",
+			"\tfor (int i = 1; i <= m; i++) {",
 			"\t\tint u, v;",
 			"\t\tcin >> u >> v;",
 			"\t\tg[u].push_back(v);",
