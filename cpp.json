@@ -968,7 +968,7 @@
 			"\t}",
 			"\tfor (int i = 2; i < N; i++) {",
 			"\t\tif (spf[i] == i) {",
-			"\t\tprimes.push_back(i);",
+			"\t\t\tprimes.push_back(i);",
 			"\t\t}",
 			"\t}",
 			"}",
