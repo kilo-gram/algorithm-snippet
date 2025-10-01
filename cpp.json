@@ -975,4 +975,23 @@
 		],
 		"description": "Sieve"
 	},
+	"Linear Sieve": {
+		"prefix": "linear_sieve",
+		"body": [
+			"const int N = 1e5 + 9;",
+			"",
+			"int spf[N];",
+			"vector<int> primes;",
+			"void sieve() {",
+			"\tfor(int i = 2; i < N; i++) {",
+			"\t\tif (spf[i] == 0) spf[i] = i, primes.push_back(i);",
+			"\t\tint sz = primes.size();",
+			"\t\tfor (int j = 0; j < sz && i * primes[j] < N && primes[j] <= spf[i]; j++) {",
+			"\t\t\tspf[i * primes[j]] = primes[j];",
+			"\t\t}",
+			"\t}",
+			"}",
+		],
+		"description": "Linear Sieve"
+	},
 }
