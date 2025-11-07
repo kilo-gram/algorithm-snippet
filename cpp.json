@@ -129,7 +129,7 @@
 		"description": "Segment tree"
 	},
 	"Digit DP": {
-		"prefix": "digit_dp",
+		"prefix": "digit dp",
 		"body": [
 			"vector<int> num;",
 			"int a, b, d, k;",
@@ -179,7 +179,7 @@
 		"description": "Digit DP"
 	},
 	"topological sorting": {
-		"prefix": "topological_sorting",
+		"prefix": "topological sorting",
 		"body": [
 			"const int N = 1e5 + 9;",
 			"vector<int> g[N];",
@@ -225,7 +225,7 @@
 		"description": "topological sorting"
 	},
 	"DFS_tree": {
-		"prefix": "dfs_tree",
+		"prefix": "dfs tree",
 		"body": [
 			"const int N = 3e5 + 5;",
 			"",
@@ -740,7 +740,7 @@
 		"description": "2-SAT"
 	},
 	"Euler Path Directed": {
-		"prefix": "eulerpathdi",
+		"prefix": "euler path di",
 		"body": [
 			"const int N = 4e5 + 9;",
 			"",
@@ -801,7 +801,7 @@
 		"description": "Euler Path Directed"
 	},
 	"Euler Path Undirected": {
-		"prefix": "eulerpathundi",
+		"prefix": "euler path undi",
 		"body": [
 			"const int N = 5e3 + 9;",
 			"",
@@ -886,7 +886,7 @@
 		"description": "Euler Path Undirected"
 	},
 	"Tree Diameter": {
-		"prefix": "tree_diameter",
+		"prefix": "tree diameter",
 		"body": [
 			"const int N = 2e5 + 9;",
 			"",
@@ -976,7 +976,7 @@
 		"description": "Sieve"
 	},
 	"Linear Sieve": {
-		"prefix": "linear_sieve",
+		"prefix": "linear sieve",
 		"body": [
 			"const int N = 1e5 + 9;",
 			"",
@@ -995,7 +995,7 @@
 		"description": "Linear Sieve"
 	},
 	"Segmented Sieve": {
-		"prefix": "segmented_sieve",
+		"prefix": "segmented sieve",
 		"body": [
 			"// Generate all primes up to limit using sieve of eratosthenes",
 			"vector<int> sieve(int limit) {",
@@ -1045,7 +1045,7 @@
 		"description": "Segmented Sieve"
 	},
 	"Counting Divisors": {
-		"prefix": "counting_divisors",
+		"prefix": "counting divisors",
 		"body": [
 				"// you can restore any Divisors",
 				"ll numberOfDivisors(ll num) {",
@@ -1069,7 +1069,7 @@
 		"description": "Counting Divisors"
 	},
 	"Sum of Divisors": {
-		"prefix": "sum_of_divisors",
+		"prefix": "sum of divisors",
 		"body": [
 			"ll SumOfDivisors(ll num) {",
 			"\tll total = 1;",
@@ -1124,7 +1124,7 @@
 		"description": "Log output to console"
 	},
 	"Lazy_SEG": {
-		"prefix": "lazy_seg",
+		"prefix": "lazy seg",
 		"body": [
 			"const int N = 5e5 + 9;",
 			"int a[N];",
@@ -1187,7 +1187,7 @@
 		"description": "Lazy_SEG"
 	},
 	"Number of divisors": {
-		"prefix": "number_of_divisors",
+		"prefix": "number of divisors",
 		"body": [
 			"ll numberOfDivisors(ll num) {",
 			"\tll total = 1;",
@@ -1210,7 +1210,7 @@
 		"description": "Number of divisors"
 	},
 	"Prime test": {
-		"prefix": "prime_test",
+		"prefix": "prime test",
 		"body": [
 			"bool prime_test(ll n) {",
 			"\tif (n < 2) return false;",
@@ -1225,7 +1225,7 @@
 		"description": "prime_test"
 	},
 	"Sum of divisors": {
-		"prefix": "sum_of_divisors",
+		"prefix": "sum of divisors",
 		"body": [
 			"ll SumOfDivisors(ll num) {",
 			"\tll total = 1;",
@@ -1363,4 +1363,44 @@
 		],
 		"description": "KMP"
 	},	
+	"Extended euclid": {
+		"prefix": "extended euclid",
+		"body": [
+			"struct extended_euclid {",
+			"\t// find a way to represent GCD in terms of a and b, i.e. coefficients x and y for which:",
+			"\t// a * x + b * y = gcd(a, b)",
+			"\tll find_cofficients(ll a, ll b, ll &x, ll &y) {",
+			"\t\tif (b == 0) {",
+			"\t\t\tx = 1; y = 0;",
+			"\t\t\treturn a;",
+			"\t\t}",
+			"\t\tll x1, y1;",
+			"\t\tll d = find_cofficients(b, a % b, x1, y1);",
+			"\t\tx = y1;",
+			"\t\ty = x1 - y1 * (a / b);",
+			"\t\treturn d;",
+			"\t}",
+			"\t// iterative version. It will run a little bit faster than find_cofficionts.",
+			"\tll find_cofficients1(ll a, ll b, ll& x, ll& y) {",
+			"\t\tx = 1, y = 0;",
+			"\t\tll x1 = 0, y1 = 1, a1 = a, b1 = b;",
+			"\t\twhile (b1) {",
+			"\t\t\tll q = a1 / b1;",
+			"\t\t\ttie(x, x1) = make_tuple(x1, x - q * x1);",
+			"\t\t\ttie(y, y1) = make_tuple(y1, y - q * y1);",
+			"\t\t\ttie(a1, b1) = make_tuple(b1, a1 - q * b1);",
+			"\t\t}",
+			"\t\treturn a1;",
+			"\t}",
+			"\t// Modular Inverse",
+			"\tll inverse(ll a, ll m) {",
+			"\t\tll x, y;",
+			"\t\tll g = find_cofficients(a, m, x, y);",
+			"\t\tif (g != 1) return -1;",
+			"\t\treturn (x % m + m) % m;",
+			"\t}",
+			"};",
+		],
+		"description": "Extended euclid"
+	},
 }
