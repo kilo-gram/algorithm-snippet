@@ -1403,4 +1403,195 @@
 		],
 		"description": "Extended euclid"
 	},
+	"Suffix array": {
+		"prefix": "suffix array",
+		"body": [
+			"namespace suffixarray {",
+			"\tconst int N = 3e5 + 9;",
+			"\tconst int LG = 18;",
+			"",
+			"\tvoid induced_sort(const vector<int> &vec, int val_range, vector<int> &SA, const vector<bool> &sl, const vector<int> &lms_idx) {",
+			"\t\tvector<int> l(val_range, 0), r(val_range, 0);",
+			"\t\tfor (int c : vec) {",
+			"\t\t\tif (c + 1 < val_range) ++l[c + 1];",
+			"\t\t\t++r[c];",
+			"\t\t}",
+			"\t\tpartial_sum(l.begin(), l.end(), l.begin());",
+			"\t\tpartial_sum(r.begin(), r.end(), r.begin());",
+			"\t\tfill(SA.begin(), SA.end(), -1);",
+			"\t\tfor (int i = lms_idx.size() - 1; i >= 0; --i)",
+			"\t\t\tSA[--r[vec[lms_idx[i]]]] = lms_idx[i];",
+			"\t\tfor (int i : SA) {",
+			"\t\t\tif (i >= 1 && sl[i - 1]) {",
+			"\t\t\t\tSA[l[vec[i - 1]]++] = i - 1;",
+			"\t\t\t}",
+			"\t\t}",
+			"\t\tfill(r.begin(), r.end(), 0);",
+			"\t\tfor (int c : vec) ++r[c];",
+			"\t\tpartial_sum(r.begin(), r.end(), r.begin());",
+			"\t\tfor (int k = SA.size() - 1, i = SA[k]; k >= 1; --k, i = SA[k]) {",
+			"\t\t\tif (i >= 1 && !sl[i - 1]) {",
+			"\t\t\t\tSA[--r[vec[i - 1]]] = i - 1;",
+			"\t\t\t}",
+			"\t\t}",
+			"\t}",
+			"",
+			"\tvector<int> SA_IS(const vector<int> &vec, int val_range) {",
+			"\t\tconst int n = vec.size();",
+			"\t\tvector<int> SA(n), lms_idx;",
+			"\t\tvector<bool> sl(n);",
+			\t\tsl[n - 1] = false;
+			\t\tfor (int i = n - 2; i >= 0; --i) {
+			\t\t\tsl[i] = (vec[i] > vec[i + 1] || (vec[i] == vec[i + 1] && sl[i + 1]));
+			\t\t\tif (sl[i] && !sl[i + 1]) lms_idx.push_back(i + 1);
+			\t\t}
+			\t\treverse(lms_idx.begin(), lms_idx.end());
+			\t\tinduced_sort(vec, val_range, SA, sl, lms_idx);
+			\t\tvector<int> new_lms_idx(lms_idx.size()), lms_vec(lms_idx.size());
+			\t\tfor (int i = 0, k = 0; i < n; ++i) {
+			\t\t\tif (!sl[SA[i]] && SA[i] >= 1 && sl[SA[i] - 1]) {
+			\t\t\t\tnew_lms_idx[k++] = SA[i];
+			\t\t\t}
+			\t\t}
+			\t\tint cur = 0;
+			\t\tSA[n - 1] = cur;
+			\t\tfor (size_t k = 1; k < new_lms_idx.size(); ++k) {
+			\t\t\tint i = new_lms_idx[k - 1], j = new_lms_idx[k];
+			\t\t\tif (vec[i] != vec[j]) {
+			\t\t\t\tSA[j] = ++cur;
+			\t\t\t\tcontinue;
+			\t\t\t}
+			\t\t\tbool flag = false;
+			\t\t\tfor (int a = i + 1, b = j + 1;; ++a, ++b) {
+			\t\t\t\tif (vec[a] != vec[b]) {
+			\t\t\t\t\tflag = true;
+			\t\t\t\t\tbreak;
+			\t\t\t\t}
+			\t\t\t\tif ((!sl[a] && sl[a - 1]) || (!sl[b] && sl[b - 1])) {
+			\t\t\t\t\tflag = !((!sl[a] && sl[a - 1]) && (!sl[b] && sl[b - 1]));
+			\t\t\t\t\tbreak;
+			\t\t\t\t}
+			\t\t\t}
+			\t\t\tSA[j] = (flag ? ++cur : cur);
+			\t\t}
+			\t\tfor (size_t i = 0; i < lms_idx.size(); ++i) {
+			\t\t\tlms_vec[i] = SA[lms_idx[i]];
+			\t\t}
+			\t\tif (cur + 1 < (int)lms_idx.size()) {
+			\t\t\tauto lms_SA = SA_IS(lms_vec, cur + 1);
+			\t\t\tfor (size_t i = 0; i < lms_idx.size(); ++i) {
+			\t\t\tnew_lms_idx[i] = lms_idx[lms_SA[i]];
+			\t\t\t}
+			\t\t}
+			\t\tinduced_sort(vec, val_range, SA, sl, new_lms_idx);
+			\t\treturn SA;
+			\t}
+			\tvector<int> suffix_array(const string &s, const int LIM = 128) {
+			\t\tvector<int> vec(s.size() + 1);
+			\t\tcopy(begin(s), end(s), begin(vec));
+			\t\tvec.back() = '!';
+			\t\tauto ret = SA_IS(vec, LIM);
+			\t\tret.erase(ret.begin());
+			\t\treturn ret;
+			\t}
+			\tstruct SuffixArray {
+			\t\tint n;
+			\t\tstring s;
+			\t\tvector<int> sa, rank, lcp;
+			\t\tvector<vector<int>> t;
+			\t\tvector<int> lg;
+			\t\tSuffixArray() {}
+			\t\tSuffixArray(string _s) {
+			\t\t\tn = _s.size();
+			\t\t\ts = _s;
+			\t\t\tsa = suffix_array(s);
+			\t\t\trank.resize(n);
+			\t\t\tfor (int i = 0; i < n; i++) rank[sa[i]] = i;
+			\t\t\tcostruct_lcp();
+			\t\t\tprec();
+			\t\t\tbuild();
+			\t\t}
+			\t\tvoid costruct_lcp() {
+			\t\t\tint k = 0;
+			\t\t\tlcp.resize(n - 1, 0);
+			\t\t\tfor (int i = 0; i < n; i++) {
+			\t\t\t\tif (rank[i] == n - 1) {
+			\t\t\t\t\tk = 0;
+			\t\t\t\t\tcontinue;
+			\t\t\t\t}
+			\t\t\t\tint j = sa[rank[i] + 1];
+			\t\t\t\twhile (i + k < n && j + k < n && s[i + k] == s[j + k]) k++;
+			\t\t\t\tlcp[rank[i]] = k;
+			\t\t\t\tif (k) k--;
+			\t\t\t}
+			\t\t}
+			\t\tvoid prec() {
+			\t\t\tlg.resize(n, 0);
+			\t\t\tfor (int i = 2; i < n; i++) lg[i] = lg[i / 2] + 1;
+			\t\t}
+			\t\tvoid build() {
+			\t\t\tint sz = n - 1;
+			\t\t\tt.resize(sz);
+			\t\t\tfor (int i = 0; i < sz; i++) {
+			\t\t\t\tt[i].resize(LG);
+			\t\t\t\tt[i][0] = lcp[i];
+			\t\t\t}
+			\t\t\tfor (int k = 1; k < LG; ++k) {
+			\t\t\t\tfor (int i = 0; i + (1 << k) - 1 < sz; ++i) {
+			\t\t\t\t\tt[i][k] = min(t[i][k - 1], t[i + (1 << (k - 1))][k - 1]);
+			\t\t\t\t}
+			\t\t\t}
+			\t\t}
+			\t\tint query(int l, int r) { // minimum of lcp[l], ..., lcp[r]
+			\t\t\tint k = lg[r - l + 1];
+			\t\t\treturn min(t[l][k], t[r - (1 << k) + 1][k]);
+			\t\t}
+			\t\tint get_lcp(int i, int j) { // lcp of suffix starting from i and j
+			\t\t\tif (i == j) return n - i;
+			\t\t\tint l = rank[i], r = rank[j];
+			\t\t\tif (l > r) swap(l, r);
+			\t\t\treturn query(l, r - 1);
+			\t\t}
+			\t\tint lower_bound(string &t) {
+			\t\t\tint l = 0, r = n - 1, k = t.size(), ans = n;
+			\t\t\twhile (l <= r) {
+			\t\t\t\tint mid = l + r >> 1;
+			\t\t\t\tif (s.substr(sa[mid], min(n - sa[mid], k)) >= t) ans = mid, r = mid - 1;
+			\t\t\t\telse l = mid + 1;
+			\t\t\t}
+			\t\t\treturn ans;
+			\t\t}
+			\t\tint upper_bound(string &t) {
+			\t\t\tint l = 0, r = n - 1, k = t.size(), ans = n;
+			\t\t\twhile (l <= r) {
+			\t\t\t\tint mid = l + r >> 1;
+			\t\t\t\tif (s.substr(sa[mid], min(n - sa[mid], k)) > t) ans = mid, r = mid - 1;
+			\t\t\t\telse l = mid + 1;
+			\t\t\t}
+			\t\t\treturn ans;
+			\t\t}
+			\t\t// occurrences of s[p, ..., p + len - 1]
+			\t\tpair<int, int> find_occurrence(int p, int len) {
+			\t\t\tp = rank[p];
+			\t\t\tpair<int, int> ans = {p, p};
+			\t\t\tint l = 0, r = p - 1;
+			\t\t\twhile (l <= r) {
+			\t\t\t\tint mid = l + r >> 1;
+			\t\t\t\tif (query(mid, p - 1) >= len) ans.first = mid, r = mid - 1;
+			\t\t\t\telse l = mid + 1;
+			\t\t\t}
+			\t\t\tl = p + 1, r = n - 1;
+			\t\t\twhile (l <= r) {
+			\t\t\t\tint mid = l + r >> 1;
+			\t\t\t\tif (query(p, mid - 1) >= len) ans.second = mid, l = mid + 1;
+			\t\t\t\telse r = mid - 1;
+			\t\t\t}
+			\t\t\treturn ans;
+			\t\t}
+
+			\t};
+			}
+		],
+		"description": "Suffix array structure"
+	},
 }
