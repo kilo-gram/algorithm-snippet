@@ -2,23 +2,6 @@
 	// writer : kilogram
 	// creating time : 2025-08-06
 	
-	"PS": {
-		"prefix": "ps",
-		"body": [
-			"#include <bits/stdc++.h>",
-			"",
-			"using namespace std;\n",
-			"typedef long long ll;\n",
-			"int main()",
-			"{",
-			"\tios::sync_with_stdio(false);",
-			"\tcin.tie(nullptr);\n",
-			"\t$0",
-			"\treturn 0;",
-			"}",
-		],
-		"description": "Log output to console"
-	},
 	"DSU": {
 		"prefix": "dsu",
 		"body": [
@@ -2068,5 +2051,29 @@
 			"}",
 		],
 		"description": "binary search tree"
+	},
+	"LIS (using DP)": {
+		"prefix": "lis (using dp)",
+		"body": [
+			"int lis(vector<int> const& a) {",
+			"\tint n = a.size();",
+			"\tvector<int> d(n, 1);",
+			"\t// 첫번째 for문 범위 를 [0, n - 1]로 하면 index를 lis의 마지막 요소로 하는 lis배열로 만들 수 있다",
+			"\tfor (int i = n - 1; i > -1; i--) {",
+			"\t\tfor (int j = i + 1; j < n; j++) {",
+			"\t\t\tif (a[j] > a[i]) {",
+			"\t\t\t\td[i] = max(d[i], d[j] + 1);",
+			"\t\t\t}",
+			"\t\t}",
+			"\t}",
+			"",
+			"\tint ans = 0;",
+			"\tfor (int i = 0; i < n; i++) {",
+			"\t\tans = max(ans, d[i]);",
+			"\t}",
+			"\treturn ans;",
+			"}",
+		],
+		"description": "lis using dp"
 	},
 }
