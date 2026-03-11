@@ -1,7 +1,23 @@
 {
 	// writer : kilogram
 	// creating time : 2025-08-06
-	
+	"PS": {
+		"prefix": "ps",
+		"body": [
+			"#include <bits/stdc++.h>",
+			"",
+			"using namespace std;\n",
+			"typedef long long ll;\n",
+			"int main()",
+			"{",
+			"\tios::sync_with_stdio(false);",
+			"\tcin.tie(nullptr);\n",
+			"\t$0",
+			"\treturn 0;",
+			"}",
+		],
+		"description": "Log output to console"
+	},
 	"DSU": {
 		"prefix": "dsu",
 		"body": [
