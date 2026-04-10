@@ -1929,7 +1929,7 @@
 			"const int N = 3e5 + 9;",
 			"",
 			"struct st {",
-			"int a, b, cost;",
+			"\tint a, b, cost;",
 			"} e[N];",
 			"const int INF = 2e9;",
 			"",
